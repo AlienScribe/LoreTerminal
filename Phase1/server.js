@@ -2,6 +2,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const fetch = require('node-fetch');
+const fs = require('fs');
+const path = require('path');
 
 dotenv.config();
 const app = express();
@@ -36,11 +38,7 @@ app.get('/api/canon', async (req, res) => {
     } catch (error) {
         console.error('Error fetching Canon lore:', error);
         try {
-            const fs = require('fs');
-            const fallback = fs.readFileSync(__dirname + '/canon-fallback.md', 'utf8');
-            res.send(fallback);
-        } catch (fsError) {
-            console.error('Error loading fallback Canon lore:', fsError);
+
             res.status(500).send('Error fetching Canon lore');
         }
     }
