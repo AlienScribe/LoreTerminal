@@ -405,6 +405,141 @@ html, body {
     box-shadow: 0 0 1vw rgba(255,212,126,0.4);
 }
 
+/* ==== LORE NAVIGATION ==== */
+.chunk-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5vw;
+    padding: 0.5vw;
+    border-top: 0.1vw solid var(--primary-color);
+    position: sticky;
+    bottom: 0;
+    background: var(--background-color);
+}
+
+.chunk-nav .nav-btn {
+    background: var(--primary-color);
+    color: var(--background-color);
+    padding: 0.5vw 1vw;
+    border: 0.2vw solid var(--primary-color);
+    cursor: pointer;
+    font-size: 1vw;
+    transition: background var(--transition-speed) ease, box-shadow var(--transition-speed) ease, transform 0.1s ease;
+}
+
+.chunk-nav .nav-btn:hover,
+.chunk-nav .nav-btn:focus {
+    background: var(--primary-color-light);
+    box-shadow: 0 0 0.5vw var(--primary-color);
+}
+
+.chunk-nav .nav-btn:active {
+    transform: translateY(0.2vw);
+}
+
+.chunk-nav .nav-btn:disabled {
+    background: #777;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.chunk-nav .progress {
+    color: var(--primary-color);
+    font-size: 0.9vw;
+}
+
+.related-sections {
+    margin-top: 2vw;
+    padding: 1vw;
+    border-top: 0.1vw solid var(--primary-color);
+}
+
+.related-sections h3 {
+    color: var(--primary-color);
+    font-size: 1vw;
+    text-transform: uppercase;
+    margin-bottom: 1vw;
+}
+
+.related-sections ul {
+    list-style: none;
+    padding: 0;
+}
+
+.related-sections li {
+    margin-bottom: 0.5vw;
+    font-size: 0.9vw;
+}
+
+.related-sections a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color var(--transition-speed) ease, text-shadow var(--transition-speed) ease;
+}
+
+.related-sections a:hover,
+.related-sections a:focus {
+    color: var(--primary-color-light);
+    text-shadow: 0 0 0.5vw var(--primary-color);
+}
+
+.toggle-btn {
+    background: var(--background-color);
+    color: var(--primary-color);
+    padding: 0.5vw 1vw;
+    border: 0.5vw solid transparent;
+    border-image: url('/assets/sci-fi-frame.png') 30 stretch;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-size: 1vw;
+    transition: color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+.toggle-btn:hover,
+.toggle-btn:focus {
+    color: var(--primary-color-light);
+    box-shadow: 0 0 0.5vw var(--primary-color);
+}
+
+.back-to-top {
+    background: var(--primary-color);
+    color: var(--background-color);
+    padding: 0.5vw 1vw;
+    border: 0.2vw solid var(--primary-color);
+    cursor: pointer;
+    font-size: 1vw;
+    transition: background var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+.back-to-top:hover,
+.back-to-top:focus {
+    background: var(--primary-color-light);
+    box-shadow: 0 0 0.5vw var(--primary-color);
+}
+
+.skip-link {
+    position: absolute;
+    left: -999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    background: var(--primary-color);
+    color: var(--background-color);
+    padding: 0.5vw;
+    border-radius: var(--border-radius);
+    z-index: 1000;
+}
+
+.skip-link:focus {
+    left: 1vw;
+    top: 1vw;
+    width: auto;
+    height: auto;
+    overflow: visible;
+}
+
 /* ==== RESPONSIVE DESIGN ==== */
 @media (max-width: 900px) {
     .main-flex {
