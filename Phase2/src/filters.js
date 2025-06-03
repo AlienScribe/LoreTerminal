@@ -1,4 +1,4 @@
-// public/filters.js
+// src/filters.js
 
 export function filterByTags(loreList, selectedTags) {
     return loreList.filter(item =>
