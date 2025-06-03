@@ -1,6 +1,8 @@
 // library.js
 import { fetchCanonLore, fetchProposedLore } from './api.js';
 import { indexLore, searchLore, findRelatedSections } from './loreIndex.js';
+import { renderCommentsUI } from './utils/comments.js';
+import { toggleBookmark, isBookmarked } from './utils/bookmarks.js';
 
 export class Library {
     constructor() {
@@ -178,6 +180,19 @@ export class Library {
         const loreText = entryDiv.querySelector('.lore-text');
         await this.typeText(loreText, renderedChunk);
 
+        const bookmarkBtn = document.createElement('button');
+        bookmarkBtn.className = 'bookmark-btn';
+        const updateStar = () => {
+            bookmarkBtn.classList.toggle('active', isBookmarked(sectionId));
+            bookmarkBtn.textContent = isBookmarked(sectionId) ? '★' : '☆';
+        };
+        updateStar();
+        bookmarkBtn.addEventListener('click', () => {
+            toggleBookmark(sectionId);
+            updateStar();
+        });
+        entryDiv.prepend(bookmarkBtn);
+
         const navDiv = document.createElement('div');
         navDiv.className = 'chunk-nav';
         const isFirst = this.state.currentChunkIndex === 0 && this.state.currentSectionIndex === 0;
@@ -214,6 +229,8 @@ export class Library {
                 });
             });
         }
+
+        renderCommentsUI(sectionId, this.elements.loreContent);
 
         navDiv.querySelector('.prev-btn').addEventListener('click', () => this.showPreviousChunk());
         navDiv.querySelector('.next-btn').addEventListener('click', () => this.showNextChunk());

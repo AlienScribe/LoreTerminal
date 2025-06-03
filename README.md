@@ -6,3 +6,9 @@ This repository contains two development phases of the "Retro Futurist CRT" term
 - **Phase2** – A modern Vite + Express setup with a GraphQL API, sample React front‑end code and Jest tests.
 
 For more details on running each phase, see the README inside the respective folder.
+
+## Recent additions
+
+- Local bookmarking and comment threads for lore sections
+- A simple Markdown converter tool accessible from the Tools menu
+- Basic Planet Explorer placeholder

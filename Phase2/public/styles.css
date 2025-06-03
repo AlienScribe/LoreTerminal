@@ -600,3 +600,16 @@ html, body {
     color: var(--success-color);
     margin-left: 0.3em;
 }
+/* Comments UI */
+.comments-section { margin-top: 1rem; }
+.comment-list { margin-bottom: 0.5rem; }
+.comment-item { margin-bottom: 0.5rem; }
+.comment-form textarea { width: 100%; height: 4rem; }
+.comment-form input { margin-right: 0.5rem; }
+
+/* Bookmark star */
+.bookmark-btn { background:none; border:none; cursor:pointer; color:#FFD47E; }
+.bookmark-btn.active { color:var(--accent-color); }
+
+/* Markdown converter */
+.markdown-converter textarea { width:100%; height:8rem; margin-bottom:0.5rem; }

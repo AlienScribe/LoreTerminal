@@ -110,6 +110,42 @@ async function showCanonSection(mode = 'canon') {
 const SECTION_MAP = {
     canon: () => showCanonSection('canon'),
     proposed: () => showCanonSection('proposed'),
+    bookmarks: async () => {
+        setLoading(true);
+        fadeContentIn();
+        if (elements.sectionTitle) elements.sectionTitle.textContent = 'BOOKMARKS';
+        if (elements.breadcrumbs) elements.breadcrumbs.innerHTML = 'Home / Bookmarks';
+        const { getBookmarks } = await import('./utils/bookmarks.js');
+        const bm = getBookmarks();
+        elements.mainContent.innerHTML = `<h2 class="section-header">BOOKMARKS</h2>`;
+        if (!libraryInstance) libraryInstance = new Library();
+        if (!libraryInstance.state.index || Object.keys(libraryInstance.state.index).length===0) {
+            await libraryInstance.init();
+        }
+        const list = document.createElement('ul');
+        bm.forEach(id => {
+            const section = libraryInstance.state.index[id];
+            if (section) {
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="#" data-id="${id}">${section.title}</a>`;
+                list.appendChild(li);
+            }
+        });
+        if (bm.length===0) { list.innerHTML='<li>No bookmarks saved.</li>'; }
+        elements.mainContent.appendChild(list);
+        list.querySelectorAll('a').forEach(a=>{
+            a.addEventListener('click',e=>{
+                e.preventDefault();
+                const idx = libraryInstance.state.currentSectionIds.indexOf(a.dataset.id);
+                if (idx !== -1) {
+                    libraryInstance.state.currentSectionIndex = idx;
+                    libraryInstance.state.currentChunkIndex = 0;
+                    showSection('canon');
+                }
+            });
+        });
+        setLoading(false);
+    },
     learn: async () => {
         try {
             setLoading(true);
@@ -198,11 +234,19 @@ const SECTION_MAP = {
                         <p>Interactive tools for exploring planet data and history.</p>
                         <button class="tool-btn" aria-label="Launch Planet Explorer">Launch Explorer</button>
                     </article>
+                    <article class="tool-card">
+                        <h3>Markdown Converter</h3>
+                        <p>Convert raw text into GitHub friendly Markdown.</p>
+                        <button class="tool-btn" id="openConverter" aria-label="Open Markdown Converter">Open Converter</button>
+                    </article>
                 </div>
             `;
             fadeContentIn();
             if (elements.sectionTitle) elements.sectionTitle.textContent = 'TOOLS';
             if (elements.breadcrumbs) elements.breadcrumbs.innerHTML = 'Home / Tools';
+            document.getElementById('openConverter')?.addEventListener('click', () => {
+                import('./markdownConverter.js').then(m => m.showMarkdownConverter());
+            });
         } catch (error) {
             showError(error.message, 'Tools');
         } finally {
