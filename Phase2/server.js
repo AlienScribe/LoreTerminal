@@ -17,6 +17,17 @@ const app = express()
 const PORT = process.env.PORT || 3000
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN
 
+function githubHeaders(accept) {
+  const headers = {
+    Accept: accept,
+    'User-Agent': 'A01-Canon-Terminal'
+  }
+  if (GITHUB_TOKEN) {
+    headers['Authorization'] = `Bearer ${GITHUB_TOKEN}`
+  }
+  return headers
+}
+
 // Create Vite server in middleware mode
 const vite = await createViteServer({
   root: process.cwd(),
@@ -211,13 +222,7 @@ app.get('/api/proposed', async (req, res) => {
   try {
     const response = await fetch(
       'https://api.github.com/repos/Alien-Worlds/the-lore/pulls?state=open',
-      {
-        headers: {
-          'Accept': 'application/vnd.github+json',
-          'Authorization': `Bearer ${GITHUB_TOKEN}`,
-          'User-Agent': 'A01-Canon-Terminal'
-        }
-      }
+      { headers: githubHeaders('application/vnd.github+json') }
     )
 
     if (!response.ok) {
@@ -240,13 +245,7 @@ app.get('/api/pulls/:number/files', async (req, res) => {
   try {
     const response = await fetch(
       `https://api.github.com/repos/Alien-Worlds/the-lore/pulls/${number}/files`,
-      {
-        headers: {
-          'Accept': 'application/vnd.github+json',
-          'Authorization': `Bearer ${GITHUB_TOKEN}`,
-          'User-Agent': 'A01-Canon-Terminal'
-        }
-      }
+      { headers: githubHeaders('application/vnd.github+json') }
     )
     if (!response.ok) {
       console.error(`GitHub API Error (PR #${number} files): HTTP ${response.status}`)
@@ -268,11 +267,7 @@ app.get('/api/contents', async (req, res) => {
       return res.status(400).json({ error: 'Missing "url" query parameter' })
     }
     const response = await fetch(url, {
-      headers: {
-        'Accept': 'application/vnd.github.raw+json',
-        'Authorization': `Bearer ${GITHUB_TOKEN}`,
-        'User-Agent': 'A01-Canon-Terminal'
-      }
+      headers: githubHeaders('application/vnd.github.raw+json')
     })
     if (!response.ok) {
       console.error(`GitHub API Error (contents URL): HTTP ${response.status}`)

@@ -8,19 +8,27 @@ const app = express();
 const PORT = 3000;
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
+function githubHeaders(accept) {
+    const headers = {
+        'Accept': accept,
+        'User-Agent': 'Alien-Worlds-Lore-App'
+    };
+    if (GITHUB_TOKEN) {
+        headers['Authorization'] = `Bearer ${GITHUB_TOKEN}`;
+    }
+    return headers;
+}
+
 // Serve static files from the 'public' directory
 app.use(express.static('public'));
 
 // Proxy endpoint for fetching Canon lore
 app.get('/api/canon', async (req, res) => {
     try {
-        const response = await fetch('https://api.github.com/repos/Alien-Worlds/the-lore/contents/README.md?ref=main', {
-            headers: {
-                'Accept': 'application/vnd.github.raw+json',
-                'Authorization': `Bearer ${GITHUB_TOKEN}`,
-                'User-Agent': 'Alien-Worlds-Lore-App'
-            }
-        });
+        const response = await fetch(
+            'https://api.github.com/repos/Alien-Worlds/the-lore/contents/README.md?ref=main',
+            { headers: githubHeaders('application/vnd.github.raw+json') }
+        );
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const text = await response.text();
         res.send(text);
@@ -33,13 +41,10 @@ app.get('/api/canon', async (req, res) => {
 // Proxy endpoint for fetching Proposed lore
 app.get('/api/proposed', async (req, res) => {
     try {
-        const response = await fetch('https://api.github.com/repos/Alien-Worlds/the-lore/pulls?state=open&ref=main', {
-            headers: {
-                'Accept': 'application/vnd.github+json',
-                'Authorization': `Bearer ${GITHUB_TOKEN}`,
-                'User-Agent': 'Alien-Worlds-Lore-App'
-            }
-        });
+        const response = await fetch(
+            'https://api.github.com/repos/Alien-Worlds/the-lore/pulls?state=open&ref=main',
+            { headers: githubHeaders('application/vnd.github+json') }
+        );
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const pulls = await response.json();
         res.json(pulls);
@@ -53,13 +58,10 @@ app.get('/api/proposed', async (req, res) => {
 app.get('/api/pulls/:number/files', async (req, res) => {
     const { number } = req.params;
     try {
-        const response = await fetch(`https://api.github.com/repos/Alien-Worlds/the-lore/pulls/${number}/files`, {
-            headers: {
-                'Accept': 'application/vnd.github+json',
-                'Authorization': `Bearer ${GITHUB_TOKEN}`,
-                'User-Agent': 'Alien-Worlds-Lore-App'
-            }
-        });
+        const response = await fetch(
+            `https://api.github.com/repos/Alien-Worlds/the-lore/pulls/${number}/files`,
+            { headers: githubHeaders('application/vnd.github+json') }
+        );
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const files = await response.json();
         res.json(files);
@@ -74,11 +76,7 @@ app.get('/api/contents', async (req, res) => {
     const { url } = req.query;
     try {
         const response = await fetch(url, {
-            headers: {
-                'Accept': 'application/vnd.github.raw+json',
-                'Authorization': `Bearer ${GITHUB_TOKEN}`,
-                'User-Agent': 'Alien-Worlds-Lore-App'
-            }
+            headers: githubHeaders('application/vnd.github.raw+json')
         });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const content = await response.text();
