@@ -6,8 +6,7 @@ import dotenv from 'dotenv'
 import { createServer as createViteServer } from 'vite'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { server as graphqlServer } from './server/graphql.js'
-import { queryWAXGraphQL } from './server/graphql.js'
+import { graphqlServer, queryWAXGraphQL } from './server/graphql.js'
 
 dotenv.config()
 
@@ -35,6 +34,7 @@ app.use('/assets', express.static(path.resolve(__dirname, 'public/assets')))
 app.use(express.json())
 
 // Mount Apollo-style GraphQL server (for your own schema)
+await graphqlServer.start()
 graphqlServer.applyMiddleware({ app })
 
 // ----------------------------------------
