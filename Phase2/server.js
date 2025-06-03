@@ -58,29 +58,14 @@ app.post('/api/aw-query', async (req, res) => {
 // 2. Canon lore via your own GraphQL schema
 app.get('/api/canon', async (req, res) => {
   try {
-    const result = await graphqlServer.executeOperation({
-      query: `
-        query {
-          lore {
-            id
-            title
-            content
-            author
-            date
-            category
-          }
-        }
-      `
-    })
-
-    if (result.errors) {
-      console.error('GraphQL errors in /api/canon:', result.errors)
-      return res.status(500).json({ error: 'GraphQL returned errors' })
+    const response = await fetch(
+      'https://raw.githubusercontent.com/Alien-Worlds/the-lore/main/README.md'
+    )
+    if (!response.ok) {
+      throw new Error(`GitHub returned ${response.status}`)
     }
-
-    // Extract data.lore
-    const lore = result.data?.lore || []
-    res.json(lore)
+    const markdown = await response.text()
+    res.send(markdown)
   } catch (error) {
     console.error('Error fetching canon lore:', error)
     res.status(500).json({ error: 'Failed to fetch canon lore' })
@@ -139,70 +124,41 @@ app.get('/api/votes', async (req, res) => {
   }
 })
 
+// Submit a vote (simple placeholder implementation)
+app.post('/api/vote', async (req, res) => {
+  try {
+    const { proposalId, vote } = req.body
+    console.log(`Vote received: proposal ${proposalId} -> ${vote}`)
+    res.json({ success: true })
+  } catch (error) {
+    console.error('Error submitting vote:', error)
+    res.status(500).json({ error: 'Failed to submit vote' })
+  }
+})
+
 // 5. Races via your own GraphQL schema
 app.get('/api/races', async (req, res) => {
   try {
-    const result = await graphqlServer.executeOperation({
-      query: `
-        query {
-          races {
-            id
-            name
-            description
-            homeworld
-            techLevel
-            population
-            history
-          }
-        }
-      `
-    })
-
-    if (result.errors) {
-      console.error('GraphQL errors in /api/races:', result.errors)
-      return res.status(500).json({ error: 'GraphQL returned errors' })
-    }
-
-    const races = result.data?.races || []
+    const response = await fetch('https://raw.githubusercontent.com/Alien-Worlds/aw-lore-data/master/races.json')
+    if (!response.ok) throw new Error('Failed to fetch races')
+    const races = await response.json()
     res.json(races)
   } catch (error) {
     console.error('Error fetching races:', error)
-    res.status(500).json({ error: 'Failed to fetch races' })
+    res.json([])
   }
 })
 
 // 6. Technology via your own GraphQL schema
 app.get('/api/technology', async (req, res) => {
   try {
-    const result = await graphqlServer.executeOperation({
-      query: `
-        query {
-          technology {
-            id
-            name
-            description
-            origin
-            era
-            impact
-            relatedRaces {
-              id
-              name
-            }
-          }
-        }
-      `
-    })
-
-    if (result.errors) {
-      console.error('GraphQL errors in /api/technology:', result.errors)
-      return res.status(500).json({ error: 'GraphQL returned errors' })
-    }
-
-    const technology = result.data?.technology || []
+    const response = await fetch('https://raw.githubusercontent.com/Alien-Worlds/aw-lore-data/master/technology.json')
+    if (!response.ok) throw new Error('Failed to fetch technology')
+    const technology = await response.json()
     res.json(technology)
   } catch (error) {
     console.error('Error fetching technology:', error)
-    res.status(500).json({ error: 'Failed to fetch technology' })
+    res.json([])
   }
 })
 

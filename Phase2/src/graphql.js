@@ -41,16 +41,7 @@ export async function fetchLoreData() {
         return data.lore;
     } catch (error) {
         console.error('Error fetching lore data:', error);
-        // Return mock data if server is not available
-        return [
-            {
-                id: '1',
-                title: 'The Beginning',
-                content: 'In the vast expanse of space, the Alien Worlds project began...',
-                category: 'history',
-                timestamp: new Date().toISOString()
-            }
-        ];
+        throw error;
     }
 }
 
@@ -108,16 +99,7 @@ export async function fetchRaceData() {
         return data.races;
     } catch (error) {
         console.error('Error fetching race data:', error);
-        // Return mock data if server is not available
-        return [
-            {
-                id: '1',
-                name: 'Humans',
-                description: 'The most adaptable species in the galaxy...',
-                traits: ['Adaptable', 'Curious', 'Resourceful'],
-                homeworld: 'Earth'
-            }
-        ];
+        throw error;
     }
 }
 
@@ -143,16 +125,7 @@ export async function fetchTechnologyData() {
         return data.technology;
     } catch (error) {
         console.error('Error fetching technology data:', error);
-        // Return mock data if server is not available
-        return [
-            {
-                id: '1',
-                name: 'Warp Drive',
-                description: 'Enables faster-than-light travel...',
-                level: 5,
-                requirements: ['Advanced Materials', 'Energy Core']
-            }
-        ];
+        throw error;
     }
 }
 

@@ -61,67 +61,59 @@ const typeDefs = gql`
     }
 `;
 
-// Mock data for development
-const mockData = {
-    lore: [
-        {
-            id: '1',
-            title: 'The Beginning',
-            content: 'In the vast expanse of space, the Alien Worlds project began...',
-            category: 'history',
-            timestamp: new Date().toISOString()
-        }
-    ],
-    planets: {
-        'Eyeke': {
-            name: 'Eyeke',
-            type: 'Terrestrial',
-            climate: 'Temperate',
-            resources: ['Trilium', 'Kyanite'],
-            natives: [
-                {
-                    species: 'Humanoid Colonists',
-                    population: 1000000,
-                    intelligence: 8
-                }
-            ]
-        }
-    },
-    races: [
-        {
-            id: '1',
-            name: 'Humans',
-            description: 'The most adaptable species in the galaxy...',
-            traits: ['Adaptable', 'Curious', 'Resourceful'],
-            homeworld: 'Earth'
-        }
-    ],
-    technology: [
-        {
-            id: '1',
-            name: 'Warp Drive',
-            description: 'Enables faster-than-light travel...',
-            level: 5,
-            requirements: ['Advanced Materials', 'Energy Core']
-        }
-    ],
-    userProfile: {
-        username: 'TestUser',
-        wallet: 'testuser123',
-        contributions: 42,
-        votes: 105,
-        planetsVisited: 7
-    }
-};
 
 // Define resolvers
 const resolvers = {
     Query: {
-        lore: () => mockData.lore,
-        planet: (_, { name }) => mockData.planets[name],
-        races: () => mockData.races,
-        technology: () => mockData.technology,
-        userProfile: () => mockData.userProfile
+        lore: async () => {
+            try {
+                const res = await fetch('https://raw.githubusercontent.com/Alien-Worlds/the-lore/main/README.md')
+                if (!res.ok) throw new Error('Failed to fetch canon')
+                const text = await res.text()
+                return [{ id: 'canon', title: 'Alien Worlds Lore', content: text, category: 'canon', timestamp: new Date().toISOString() }]
+            } catch (err) {
+                console.error('Lore resolver error:', err)
+                return []
+            }
+        },
+        planet: async (_, { name }) => {
+            try {
+                const query = `query ($dacId: String!) { planet_details(dac_id: $dacId) { planet_details { name description } } }`
+                const result = await queryWAXGraphQL(query, { dacId: name })
+                const details = result.data?.planet_details?.planet_details?.[0] || {}
+                return {
+                    name: details.name || name,
+                    type: '',
+                    climate: details.description || '',
+                    resources: [],
+                    natives: []
+                }
+            } catch (err) {
+                console.error('Planet resolver error:', err)
+                return null
+            }
+        },
+        races: async () => {
+            try {
+                const res = await fetch('https://raw.githubusercontent.com/Alien-Worlds/aw-lore-data/master/races.json')
+                if (!res.ok) throw new Error('Failed to fetch races')
+                return await res.json()
+            } catch (err) {
+                console.error('Races resolver error:', err)
+                return []
+            }
+        },
+        technology: async () => {
+            try {
+                const res = await fetch('https://raw.githubusercontent.com/Alien-Worlds/aw-lore-data/master/technology.json')
+                if (!res.ok) throw new Error('Failed to fetch technology')
+                return await res.json()
+            } catch (err) {
+                console.error('Technology resolver error:', err)
+                return []
+            }
+        },
+        userProfile: async () => ({ username: '', wallet: '', contributions: 0, votes: 0, planetsVisited: 0 })
     }
 };
 

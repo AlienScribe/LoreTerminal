@@ -1,15 +1,18 @@
 // public/voteHandler.js
 
 export async function submitVote(proposalId, vote) {
-    // Placeholder: simulate a vote API POST
-    console.log(\`Submitting vote for Proposal \${proposalId}: \${vote}\`);
-
-    // Simulated feedback
-    return new Promise(resolve => {
-        setTimeout(() => {
-            resolve({ success: true, message: 'Vote submitted!' });
-        }, 500);
-    });
+    try {
+        const res = await fetch("/api/vote", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ proposalId, vote })
+        });
+        if (!res.ok) throw new Error("Vote failed");
+        return await res.json();
+    } catch (err) {
+        console.error("Vote submission error:", err);
+        return { success: false, message: "Vote failed" };
+    }
 }
 
 export function renderVoteControls(proposalId) {
