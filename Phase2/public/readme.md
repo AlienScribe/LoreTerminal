@@ -11,28 +11,27 @@ This is a modular interactive space lore UI that can be easily integrated into o
 ## How to Integrate
 
 ### Basic Integration
-1. Copy all files to your project directory
-2. Include the main HTML in your page using an iframe or by copying the HTML structure
-3. Link to the CSS and JavaScript files in your HTML
+1. Copy `index.html`, the `public` folder and the `src` folder into your project.
+2. Reference `public/styles.css` in your page or bundle it with your own styles.
+3. Load the JavaScript modules using `<script type="module" src="/src/main.js"></script>` and `<script type="module" src="/public/router.js"></script>`.
 
 ### Advanced Integration
 If you need to integrate this into an existing application:
 
-1. Import the JavaScript modules (planets.js, maps.js, etc.) in your application
-2. Add the necessary HTML elements to your DOM
-3. Initialize the space UI using the methods provided in game.js
+1. Import the modules from the `src` folder (e.g. `auth.js`, `ui.js`, `main.js`) as needed.
+2. Include `public/router.js` to handle navigation between views.
+3. Ensure elements such as `#contentBox` and sidebar controls exist in your DOM, then call the initialization code in `src/main.js`.
 
 ## Customization
-- Edit config.js to modify planet names, images, and other configuration options
-- Modify styles.css and planet-styles.css to match your application's design
-- Add or remove planets by updating the configuration and adding corresponding images
+- Tweak `public/styles.css` to alter colors, fonts and layout.
+- Update modules in the `src` folder to change logic or data sources.
 
 ## Directory Structure
-- `*.html` - HTML pages for each planet and the main interface
-- `*.js` - JavaScript modules handling different functionality
-- `*.css` - Style sheets for the UI
-- `*.png` - Planet and map images
+- `index.html` – Main interface markup
+- `public/` – Static assets (`styles.css`, `router.js`)
+- `src/` – Application logic modules
+- `server.js` – Express server with optional GraphQL support
 
 ## Dependencies
-- PIXI.js for rendering planetary maps and space environment
+- Node.js environment with Vite for local development and bundling
 
