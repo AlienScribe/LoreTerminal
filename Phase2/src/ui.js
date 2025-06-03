@@ -6,7 +6,8 @@
  * - Section logic is modular and robust
  */
 
-import { showSpaceExplorer } from './space-explorer/js/space-explorer-integration.js';
+// Use the Vite alias so the path resolves correctly on all platforms
+import { showSpaceExplorer } from '@/space-explorer/js/space-explorer-integration.js';
 import { Library } from './library.js';
 import { UserProfile } from './profile.js';
 
