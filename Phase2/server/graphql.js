@@ -147,7 +147,7 @@ const waxClient = createClient({
 });
 
 // WAX GraphQL query function
-async function queryWAXGraphQL(query, variables = {}) {
+export async function queryWAXGraphQL(query, variables = {}) {
     try {
         const result = await waxClient.request({
             query,
@@ -159,3 +159,5 @@ async function queryWAXGraphQL(query, variables = {}) {
         throw error;
     }
 }
+
+export { graphqlServer as server };
