@@ -50,6 +50,7 @@ html, body {
     );
     pointer-events: none;
     z-index: 100;
+    animation: crtFlicker 3s infinite;
 }
 
 .crt::after {
@@ -72,7 +73,7 @@ html, body {
     min-height: 80vh;
     margin: 5vh auto;
     background: var(--primary-color-dark);
-    border: 16px solid transparent;
+    border: 16px solid var(--primary-color);
     border-image: url('/assets/sci-fi-frame.png') 32 fill repeat;
     filter: sepia(1) saturate(9) hue-rotate(-20deg) brightness(1.2) contrast(1.1);
     display: flex;
@@ -120,6 +121,7 @@ html, body {
     letter-spacing: 0.17em;
     text-shadow: 0 0 8px rgba(255,212,126,0.4),
                  0 0 2px rgba(255,212,126,0.67);
+    animation: neonGlow 1.5s ease-in-out infinite alternate;
 }
 
 /* ==== MAIN LAYOUT ==== */
@@ -252,7 +254,7 @@ html, body {
     padding: 2vw 3vw 2vw 3vw;
     box-sizing: border-box;
     background: rgba(16,12,0,0.80);
-    border: 12px solid transparent;
+    border: 12px solid var(--primary-color);
     border-image: url('/assets/sci-fi-frame.png') 24 fill repeat;
     border-radius: 0.4vw;
     color: var(--primary-color);
@@ -340,6 +342,24 @@ html, body {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes crtFlicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        opacity: 1;
+    }
+    20%, 24%, 55% {
+        opacity: 0.7;
+    }
+}
+
+@keyframes neonGlow {
+    from {
+        text-shadow: 0 0 0.5vw var(--primary-color);
+    }
+    to {
+        text-shadow: 0 0 1.2vw var(--primary-color-light);
     }
 }
 
@@ -488,7 +508,7 @@ html, body {
     background: var(--background-color);
     color: var(--primary-color);
     padding: 0.5vw 1vw;
-    border: 0.5vw solid transparent;
+    border: 0.5vw solid var(--primary-color);
     border-image: url('/assets/sci-fi-frame.png') 30 stretch;
     text-transform: uppercase;
     cursor: pointer;

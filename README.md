@@ -12,3 +12,4 @@ For more details on running each phase, see the README inside the respective fol
 - Local bookmarking and comment threads for lore sections
 - A simple Markdown converter tool accessible from the Tools menu
 - Basic Planet Explorer placeholder
+- Additional CSS animations and fallback styling for the retro CRT theme
