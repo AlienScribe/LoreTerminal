@@ -21,8 +21,9 @@ function githubHeaders(accept) {
     return headers;
 }
 
-// Serve static files from the 'public' directory
-app.use(express.static('public'));
+// Serve static files from the 'Public' directory
+// Using the correct case ensures the files are found on case‑sensitive systems
+app.use(express.static('Public'));
 
 // Proxy endpoint for fetching Canon lore
 app.get('/api/canon', async (req, res) => {
@@ -37,11 +38,7 @@ app.get('/api/canon', async (req, res) => {
     } catch (error) {
         console.error('Error fetching Canon lore:', error);
         try {
-            const fallbackPath = path.join(__dirname, 'Public', 'fallback_canon.md');
-            const text = fs.readFileSync(fallbackPath, 'utf8');
-            res.send(text);
-        } catch (fsErr) {
-            console.error('Error loading fallback canon lore:', fsErr);
+
             res.status(500).send('Error fetching Canon lore');
         }
     }
@@ -59,7 +56,8 @@ app.get('/api/proposed', async (req, res) => {
         res.json(pulls);
     } catch (error) {
         console.error('Error fetching Proposed lore:', error);
-        res.status(500).send('Error fetching Proposed lore');
+        // On failure return an empty array so the front-end can still render
+        res.json([]);
     }
 });
 
