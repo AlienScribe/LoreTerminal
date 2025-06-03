@@ -594,3 +594,9 @@ html, body {
         color: black;
     }
 }
+
+/* Live indicator styling */
+.live-indicator {
+    color: var(--success-color);
+    margin-left: 0.3em;
+}

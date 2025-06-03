@@ -2,7 +2,7 @@
 import { GraphQLClient } from 'graphql-request';
 
 // Create GraphQL client with proper URL
-const graphqlClient = new GraphQLClient('http://localhost:3000/graphql', {
+const graphqlClient = new GraphQLClient('/graphql', {
     headers: {
         'Content-Type': 'application/json',
     },
