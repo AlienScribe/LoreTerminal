@@ -21,4 +21,4 @@ npm test
 - Local bookmarking and comment threads for lore sections
 - A simple Markdown converter tool accessible from the Tools menu
 - Basic Planet Explorer placeholder
-- Animated starfield background during boot
+
