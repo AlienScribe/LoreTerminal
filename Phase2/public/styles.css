@@ -8,6 +8,7 @@
     --success-color: #4CAF50;
     --border-radius: 0.2vw;
     --transition-speed: 0.3s;
+    --fallback-frame-color: rgba(255,212,126,0.35);
     --font-family: 'VT323', monospace;
 }
 
@@ -73,7 +74,7 @@ html, body {
     min-height: 80vh;
     margin: 5vh auto;
     background: var(--primary-color-dark);
-    border: 16px solid var(--primary-color);
+    border: 16px solid var(--fallback-frame-color);
     border-image: url('/assets/sci-fi-frame.png') 32 fill repeat;
     filter: sepia(1) saturate(9) hue-rotate(-20deg) brightness(1.2) contrast(1.1);
     display: flex;
@@ -254,7 +255,7 @@ html, body {
     padding: 2vw 3vw 2vw 3vw;
     box-sizing: border-box;
     background: rgba(16,12,0,0.80);
-    border: 12px solid var(--primary-color);
+    border: 12px solid var(--fallback-frame-color);
     border-image: url('/assets/sci-fi-frame.png') 24 fill repeat;
     border-radius: 0.4vw;
     color: var(--primary-color);
@@ -508,7 +509,7 @@ html, body {
     background: var(--background-color);
     color: var(--primary-color);
     padding: 0.5vw 1vw;
-    border: 0.5vw solid var(--primary-color);
+    border: 0.5vw solid var(--fallback-frame-color);
     border-image: url('/assets/sci-fi-frame.png') 30 stretch;
     text-transform: uppercase;
     cursor: pointer;
