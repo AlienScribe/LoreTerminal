@@ -30,6 +30,19 @@ const BOOT_MESSAGES = [
     'DECRYPTING DATA CORE NEXUS... [ACCESS DENIED]',
     'CONNECT WAX CLOUD WALLET'
 ];
+function createStarfield(count = 100) {
+    const container = document.getElementById("starfield");
+    if (!container) return;
+    for (let i = 0; i < count; i++) {
+        const star = document.createElement("div");
+        star.className = "star";
+        star.style.left = `${Math.random() * 100}vw`;
+        star.style.top = `${Math.random() * 100}vh`;
+        star.style.animationDelay = `${Math.random() * 5}s`;
+        container.appendChild(star);
+    }
+}
+
 
 // Typewriter effect with improved timing
 async function typeBoot(lines, logElem) {
@@ -73,6 +86,7 @@ async function initializeApp() {
         elements.sidebar.style.display = 'none';
         elements.walletLoginBtn.style.display = 'none';
         if (elements.sidebarTab) elements.sidebarTab.style.display = 'none';
+        createStarfield();
 
         // Check for existing session
         if (isLoggedIn() && getSession()?.actor) {
