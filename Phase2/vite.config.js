@@ -1,10 +1,8 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 export default defineConfig({
   plugins: [
-    react(),
     nodePolyfills({
       protocolImports: true,
     }),
@@ -25,7 +23,7 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api\/aw-query/, '/graphql/graphql')
       }
     },
-    open: true
+    open: false
   },
   publicDir: 'public',
   build: {
