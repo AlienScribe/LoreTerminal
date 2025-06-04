@@ -1,14 +1,24 @@
 # LoreTerminal
 
-This repository contains two development phases of the "Retro Futurist CRT" terminal for exploring Alien Worlds lore.
+The original prototype and the modern Vite/Express build have been consolidated into a single application located in **Phase2**.  Phase1 remains for historical reference, but all functionality is now included in the Phase2 codebase.
 
-- **Phase1** – A static Express server serving files from `Public/`. Useful for quick prototypes.
-- **Phase2** – A modern Vite + Express setup with a GraphQL API, sample React front‑end code and Jest tests.
+## Running the unified project
 
-For more details on running each phase, see the README inside the respective folder.
+```bash
+cd Phase2
+npm install
+npm run dev
+```
+
+To run the test suite:
+
+```bash
+npm test
+```
 
 ## Recent additions
 
 - Local bookmarking and comment threads for lore sections
 - A simple Markdown converter tool accessible from the Tools menu
 - Basic Planet Explorer placeholder
+- Animated starfield background during boot
