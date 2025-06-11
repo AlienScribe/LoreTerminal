@@ -55,7 +55,7 @@ function fadeContentIn() {
 }
 
 // Canon/proposed lore section handler using Library class
-async function showCanonSection(mode = 'canon') {
+async function showCanonSection(mode = 'canon', startSectionId = null) {
     setLoading(true);
     fadeContentIn();
     if (elements.sectionTitle) elements.sectionTitle.textContent = 'A-01 CANON TERMINAL';
@@ -92,6 +92,14 @@ async function showCanonSection(mode = 'canon') {
         } else if (mode === 'canon' && libraryInstance.state.currentMode !== 'canon') {
             libraryInstance.toggleMode();
         }
+
+        if (startSectionId) {
+            const idx = libraryInstance.state.currentSectionIds.indexOf(startSectionId);
+            if (idx !== -1) {
+                libraryInstance.state.currentSectionIndex = idx;
+                await libraryInstance.renderLore();
+            }
+        }
     } catch (err) {
         showError(err.message, 'Canon Lore');
     } finally {
@@ -124,25 +132,22 @@ const SECTION_MAP = {
             await libraryInstance.init();
         }
         const list = document.createElement('ul');
-        bm.forEach(id => {
-            const section = libraryInstance.state.index[id];
+        bm.forEach(b => {
+            const section = libraryInstance.state.index[b.id];
             if (section) {
                 const li = document.createElement('li');
-                li.innerHTML = `<a href="#" data-id="${id}">${section.title}</a>`;
+                li.innerHTML = `<a href="#" data-id="${b.id}">${section.title}</a>`;
                 list.appendChild(li);
             }
         });
         if (bm.length===0) { list.innerHTML='<li>No bookmarks saved.</li>'; }
         elements.mainContent.appendChild(list);
-        list.querySelectorAll('a').forEach(a=>{
-            a.addEventListener('click',e=>{
+        list.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', async e => {
                 e.preventDefault();
-                const idx = libraryInstance.state.currentSectionIds.indexOf(a.dataset.id);
-                if (idx !== -1) {
-                    libraryInstance.state.currentSectionIndex = idx;
-                    libraryInstance.state.currentChunkIndex = 0;
-                    showSection('canon');
-                }
+                const targetId = a.dataset.id;
+                const isProposed = targetId.startsWith('proposed-');
+                await showCanonSection(isProposed ? 'proposed' : 'canon', targetId);
             });
         });
         setLoading(false);
@@ -192,25 +197,24 @@ const SECTION_MAP = {
             if (elements.sectionTitle) elements.sectionTitle.textContent = 'VOTE';
             if (elements.breadcrumbs) elements.breadcrumbs.innerHTML = 'Home / Vote';
 
-            const response = await fetch('/api/votes');
-            if (!response.ok) throw new Error('Failed to fetch voting data');
-            const votes = await response.json();
+            const { fetchMegaProfile } = await import('./graphqlMegaFetcher.js');
+            const { renderVoteControls } = await import('./voteHandler.js');
+            const data = await fetchMegaProfile('anonymous', 'eyeke', 'eyeke');
+            const proposals = data.voteStats.proposals || [];
 
-            elements.mainContent.innerHTML = `
-                <h2 class="section-header">VOTE</h2>
-                <div class="vote-container" role="region" aria-label="Voting System">
-                    ${votes.map(vote => `
-                        <article class="vote-card">
-                            <h3>${vote.title}</h3>
-                            <p>${vote.description}</p>
-                            <div class="vote-actions">
-                                <button class="vote-btn" data-vote-id="${vote.id}" aria-label="Vote for ${vote.title}">Vote</button>
-                                <span class="vote-count" aria-label="${vote.count} votes">${vote.count} votes</span>
-                            </div>
-                        </article>
-                    `).join('')}
-                </div>
-            `;
+            elements.mainContent.innerHTML = `<h2 class="section-header">VOTE</h2><div class="vote-container" role="region" aria-label="Voting System"></div>`;
+            const container = elements.mainContent.querySelector('.vote-container');
+            proposals.forEach(p => {
+                const card = document.createElement('article');
+                card.className = 'vote-card';
+                card.innerHTML = `
+                    <h3>${p.title}</h3>
+                    <p>Status: <span class="status-badge status-${p.status}">${p.status}</span></p>
+                    <div class="vote-counts"><span>YES: ${p.total_yes_votes}</span> <span>NO: ${p.total_no_votes}</span></div>
+                `;
+                card.appendChild(renderVoteControls(p.proposal_id));
+                container.appendChild(card);
+            });
             fadeContentIn();
         } catch (error) {
             showError(error.message, 'Voting System');

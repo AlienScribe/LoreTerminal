@@ -2,7 +2,7 @@
 
 export async function submitVote(proposalId, vote) {
     // Placeholder: simulate a vote API POST
-    console.log(\`Submitting vote for Proposal \${proposalId}: \${vote}\`);
+    console.log(`Submitting vote for Proposal ${proposalId}: ${vote}`);
 
     // Simulated feedback
     return new Promise(resolve => {

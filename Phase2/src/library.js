@@ -3,6 +3,7 @@ import { fetchCanonLore, fetchProposedLore } from './api.js';
 import { indexLore, searchLore, findRelatedSections } from './loreIndex.js';
 import { renderCommentsUI } from './utils/comments.js';
 import { toggleBookmark, isBookmarked } from './utils/bookmarks.js';
+import { filterByTags, filterByAuthor } from './filters.js';
 
 export class Library {
     constructor() {
@@ -188,7 +189,11 @@ export class Library {
         };
         updateStar();
         bookmarkBtn.addEventListener('click', () => {
-            toggleBookmark(sectionId);
+            toggleBookmark({
+                sectionId,
+                title: section.title,
+                prNumber: section.metadata?.prNumber || null
+            });
             updateStar();
         });
         entryDiv.prepend(bookmarkBtn);
@@ -323,8 +328,29 @@ export class Library {
     }
 
     handleSearch() {
-        const query = this.elements.searchInput.value;
-        this.state.currentSections = searchLore(this.state.index, query, this.state.selectedTag);
+        const raw = this.elements.searchInput.value;
+        const tagMatches = [...raw.matchAll(/tag:([\w-]+)/gi)].map(m => m[1].toLowerCase());
+        const authorMatch = raw.match(/author:([\w-]+)/i);
+        let query = raw
+            .replace(/tag:[\w-]+/gi, '')
+            .replace(/author:[\w-]+/i, '')
+            .trim();
+
+        let results = searchLore(this.state.index, query, null);
+        if (tagMatches.length) {
+            results = filterByTags(Object.values(results), tagMatches).reduce((acc, item) => {
+                acc[item.sectionId] = item;
+                return acc;
+            }, {});
+            this.state.selectedTag = tagMatches[0];
+        }
+        if (authorMatch) {
+            results = filterByAuthor(Object.values(results), authorMatch[1]).reduce((acc, item) => {
+                acc[item.sectionId] = item;
+                return acc;
+            }, {});
+        }
+        this.state.currentSections = results;
         this.state.currentSectionIds = Object.keys(this.state.currentSections).filter(id => {
             const section = this.state.currentSections[id];
             if (this.state.currentMode === 'canon') {
