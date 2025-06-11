@@ -124,11 +124,11 @@ const SECTION_MAP = {
             await libraryInstance.init();
         }
         const list = document.createElement('ul');
-        bm.forEach(id => {
-            const section = libraryInstance.state.index[id];
+        bm.forEach(b => {
+            const section = libraryInstance.state.index[b.id];
             if (section) {
                 const li = document.createElement('li');
-                li.innerHTML = `<a href="#" data-id="${id}">${section.title}</a>`;
+                li.innerHTML = `<a href="#" data-id="${b.id}">${section.title}</a>`;
                 list.appendChild(li);
             }
         });
@@ -192,25 +192,24 @@ const SECTION_MAP = {
             if (elements.sectionTitle) elements.sectionTitle.textContent = 'VOTE';
             if (elements.breadcrumbs) elements.breadcrumbs.innerHTML = 'Home / Vote';
 
-            const response = await fetch('/api/votes');
-            if (!response.ok) throw new Error('Failed to fetch voting data');
-            const votes = await response.json();
+            const { fetchMegaProfile } = await import('./graphqlMegaFetcher.js');
+            const { renderVoteControls } = await import('./voteHandler.js');
+            const data = await fetchMegaProfile('anonymous', 'eyeke', 'eyeke');
+            const proposals = data.voteStats.proposals || [];
 
-            elements.mainContent.innerHTML = `
-                <h2 class="section-header">VOTE</h2>
-                <div class="vote-container" role="region" aria-label="Voting System">
-                    ${votes.map(vote => `
-                        <article class="vote-card">
-                            <h3>${vote.title}</h3>
-                            <p>${vote.description}</p>
-                            <div class="vote-actions">
-                                <button class="vote-btn" data-vote-id="${vote.id}" aria-label="Vote for ${vote.title}">Vote</button>
-                                <span class="vote-count" aria-label="${vote.count} votes">${vote.count} votes</span>
-                            </div>
-                        </article>
-                    `).join('')}
-                </div>
-            `;
+            elements.mainContent.innerHTML = `<h2 class="section-header">VOTE</h2><div class="vote-container" role="region" aria-label="Voting System"></div>`;
+            const container = elements.mainContent.querySelector('.vote-container');
+            proposals.forEach(p => {
+                const card = document.createElement('article');
+                card.className = 'vote-card';
+                card.innerHTML = `
+                    <h3>${p.title}</h3>
+                    <p>Status: <span class="status-badge status-${p.status}">${p.status}</span></p>
+                    <div class="vote-counts"><span>YES: ${p.total_yes_votes}</span> <span>NO: ${p.total_no_votes}</span></div>
+                `;
+                card.appendChild(renderVoteControls(p.proposal_id));
+                container.appendChild(card);
+            });
             fadeContentIn();
         } catch (error) {
             showError(error.message, 'Voting System');

@@ -2,11 +2,15 @@ export function getBookmarks() {
   return JSON.parse(localStorage.getItem('bookmarks') || '[]');
 }
 
-export function toggleBookmark(sectionId) {
+export function toggleBookmark(section) {
   const bookmarks = getBookmarks();
-  const idx = bookmarks.indexOf(sectionId);
+  const idx = bookmarks.findIndex(b => b.id === section.sectionId);
   if (idx === -1) {
-    bookmarks.push(sectionId);
+    bookmarks.push({
+      id: section.sectionId,
+      title: section.title,
+      pr: section.prNumber || null
+    });
   } else {
     bookmarks.splice(idx, 1);
   }
@@ -14,5 +18,5 @@ export function toggleBookmark(sectionId) {
 }
 
 export function isBookmarked(sectionId) {
-  return getBookmarks().includes(sectionId);
+  return getBookmarks().some(b => b.id === sectionId);
 }
