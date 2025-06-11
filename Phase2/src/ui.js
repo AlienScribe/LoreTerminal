@@ -55,7 +55,7 @@ function fadeContentIn() {
 }
 
 // Canon/proposed lore section handler using Library class
-async function showCanonSection(mode = 'canon') {
+async function showCanonSection(mode = 'canon', startSectionId = null) {
     setLoading(true);
     fadeContentIn();
     if (elements.sectionTitle) elements.sectionTitle.textContent = 'A-01 CANON TERMINAL';
@@ -91,6 +91,14 @@ async function showCanonSection(mode = 'canon') {
             libraryInstance.toggleMode();
         } else if (mode === 'canon' && libraryInstance.state.currentMode !== 'canon') {
             libraryInstance.toggleMode();
+        }
+
+        if (startSectionId) {
+            const idx = libraryInstance.state.currentSectionIds.indexOf(startSectionId);
+            if (idx !== -1) {
+                libraryInstance.state.currentSectionIndex = idx;
+                await libraryInstance.renderLore();
+            }
         }
     } catch (err) {
         showError(err.message, 'Canon Lore');
@@ -134,15 +142,12 @@ const SECTION_MAP = {
         });
         if (bm.length===0) { list.innerHTML='<li>No bookmarks saved.</li>'; }
         elements.mainContent.appendChild(list);
-        list.querySelectorAll('a').forEach(a=>{
-            a.addEventListener('click',e=>{
+        list.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', async e => {
                 e.preventDefault();
-                const idx = libraryInstance.state.currentSectionIds.indexOf(a.dataset.id);
-                if (idx !== -1) {
-                    libraryInstance.state.currentSectionIndex = idx;
-                    libraryInstance.state.currentChunkIndex = 0;
-                    showSection('canon');
-                }
+                const targetId = a.dataset.id;
+                const isProposed = targetId.startsWith('proposed-');
+                await showCanonSection(isProposed ? 'proposed' : 'canon', targetId);
             });
         });
         setLoading(false);
