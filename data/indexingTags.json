@@ -1,0 +1,9 @@
+{
+  "categories": ["Planets", "Species", "Factions", "Technology"],
+  "tags": {
+    "Planets": ["Eyeke", "Magor", "Neri", "Veles", "Naron"],
+    "Species": ["Humans", "Robots"],
+    "Factions": ["Syndicates", "Guilds"],
+    "Technology": ["Mining", "Teleportation"]
+  }
+}

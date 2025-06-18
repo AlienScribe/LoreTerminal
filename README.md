@@ -1,19 +1,16 @@
 # Lore Terminal
 
-This is a retro-styled terminal interface for browsing Alien Worlds lore.
+Retro-inspired web terminal for browsing Alien Worlds lore. All canon lore is pulled directly from the project README on GitHub, while proposed lore entries are fetched from open pull requests.
 
 ## Development Setup
-
-1. Install dependencies:
+1. Install dependencies
    ```bash
    npm install
    ```
-2. Start a local dev server:
+2. Run a local web server
    ```bash
    npm run dev
    ```
+   Visit [http://localhost:8080](http://localhost:8080).
 
-The app will be served at [http://localhost:8080](http://localhost:8080).
-
-There are currently no automated tests, but a placeholder `npm test` script is
-provided.
+No automated tests are included. The interface is static and ready for deployment on any static hosting provider.
