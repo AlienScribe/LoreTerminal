@@ -1,13 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alien Worlds Lore Terminal</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A-01 Canon Terminal for Alien Worlds lore exploration">
+    <title>A-01 Canon Terminal</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div id="overlay" class="scanline"></div>
-  <script type="module" src="app.js"></script>
+    <div class="crt" role="presentation">
+        <div class="starfield" id="starfield" aria-hidden="true"></div>
+        <div class="boot-sequence" id="bootSequence" aria-live="polite">
+            <div class="boot-text">INITIALIZING A-01 CANON TERMINAL...</div>
+        </div>
+        <div class="terminal" id="terminal" role="main">
+            <header class="logo-container">
+                <div class="logo" aria-hidden="true"></div>
+            </header>
+            <header class="header">
+                <h1 class="title">A-01 Canon Terminal</h1>
+            </header>
+            <div class="main">
+                <aside class="sidebar" role="navigation">
+                    <button class="sidebar-btn active" aria-label="Library Section" type="button">Library</button>
+                </aside>
+                <section class="content" role="region" aria-label="Lore Content">
+                    <div class="controls">
+                        <label for="searchInput" class="sr-only">Search Lore</label>
+                        <input type="text" id="searchInput" placeholder="Search" aria-label="Search Lore">
+                        <button class="toggle-btn" data-mode="canon" aria-label="Toggle between Canon and Proposed Mode" type="button">Proposed</button>
+                        <button class="back-to-top" aria-label="Back to Top" type="button">↑</button>
+                    </div>
+                    <div class="filter-panel" id="filterPanel" role="complementary">
+                        <div class="tag-filter">
+                            <span>Filter by Tags:</span>
+                            <div class="tag-list" id="tagList" role="listbox"></div>
+                        </div>
+                        <div class="metadata-filter">
+                            <label for="authorFilter">Author:</label>
+                            <select id="authorFilter" aria-label="Filter by Author">
+                                <option value="">All Authors</option>
+                            </select>
+                            <label for="dateFilter">Date Range:</label>
+                            <select id="dateFilter" aria-label="Filter by Date Range">
+                                <option value="">All Dates</option>
+                                <option value="lastMonth">Last Month</option>
+                                <option value="lastYear">Last Year</option>
+                                <option value="older">Older</option>
+                            </select>
+                        </div>
+                    </div>
+                    <nav class="breadcrumbs" id="breadcrumbs" role="navigation" aria-label="Breadcrumbs"></nav>
+                    <div class="lore-content" role="article">
+                        <div class="loading" id="loading" aria-busy="true">LOADING...</div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="/api.js"></script>
+    <script type="module" src="/loreIndex.js"></script>
+    <script type="module" src="/library.js"></script>
+    <script type="module" src="/main.js"></script>
 </body>
 </html>
