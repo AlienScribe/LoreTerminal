@@ -9,19 +9,19 @@
   <link rel="stylesheet" href="/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="/assets/favicon.png">
 </head>
 <body>
-  <div class="crt" role="presentation">
-    <div class="starfield" id="starfield" aria-hidden="true"></div>
-    <div class="boot-sequence" id="bootSequence" aria-live="polite">
+  <div class="crt" role="application" aria-label="A-01 Canon Terminal">
+    <div class="boot-sequence" id="bootSequence" style="display:flex;" role="dialog" aria-label="System Boot Sequence">
       <div class="boot-log-frame">
-        <pre id="bootLog" class="boot-text">INITIALIZING A-01 CANON TERMINAL...</pre>
+        <pre id="bootLog" class="boot-text" aria-live="polite">INITIALIZING A-01 CANON TERMINAL...</pre>
         <button id="walletLoginBtn" class="wallet-button" aria-label="Connect WAX Wallet">🔐 Connect WAX Wallet</button>
       </div>
     </div>
-    <div class="terminal" id="terminal" role="main">
+    <div class="starfield" id="starfield" aria-hidden="true"></div>
+    <div class="terminal" id="terminal" style="display:none;" role="main">
       <header class="header">
         <div class="logo-container">
           <span class="logo"><img src="/assets/alien-worlds-logo.png" alt="Alien Worlds Community Logo" width="200" height="50"></span>
@@ -69,7 +69,7 @@
             </div>
           </div>
           <nav class="breadcrumbs" id="breadcrumbs" role="navigation" aria-label="Breadcrumbs"></nav>
-          <div class="lore-content" role="article">
+          <div class="lore-content" id="contentBox" role="article">
             <div class="loading" id="loading" aria-busy="true">LOADING...</div>
           </div>
         </section>
