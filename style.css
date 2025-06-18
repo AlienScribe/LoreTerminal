@@ -1,0 +1,20 @@
+body {
+    background: black;
+    color: white;
+    font-family: monospace;
+    margin: 0;
+    padding: 0;
+}
+
+#terminal {
+    padding: 1rem;
+    position: relative;
+}
+
+.scanline::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(transparent 1px, rgba(255,255,255,0.03) 2px);
+    pointer-events: none;
+}
