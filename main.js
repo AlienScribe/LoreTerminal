@@ -1,12 +1,11 @@
-import { renderMarkdown } from './loreParser.js';
-import { fetchProposedLore } from './api/github.js';
-import { fetchCanonLore } from './api/alienworlds.js';
-import './ui/filters.js';
-import './ui/menu.js';
-import './ui/bookmarks.js';
-import './ui/comments.js';
-import './ui/modal.js';
-import { displayVoteButtons } from './voteSystem.js';
+import { renderMarkdown } from './components/markdownRenderer.js';
+import { fetchProposedLore, fetchCanonLore } from './api/githubAPI.js';
+import './components/searchFilter.js';
+import './components/menu.js';
+import './components/bookmarks.js';
+import './components/comments.js';
+import './components/modal.js';
+import { displayVoteButtons } from './components/votingSystem.js';
 
 async function load() {
   document.body.innerHTML = `
@@ -27,7 +26,7 @@ async function load() {
 function displayLore(items) {
   const container = document.getElementById('loreDisplay');
   container.innerHTML = items
-    .map(item => `<article data-id="${item.id || item.title}">${displayVoteButtons(item.id || item.title)}${renderMarkdown(item.body || item.content)}</article>`)
+    .map(item => `<article data-id="${item.id}">${displayVoteButtons(item.id)}${renderMarkdown(item.content)}</article>`)
     .join('\n');
 }
 
