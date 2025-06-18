@@ -1,4 +1,5 @@
 export function renderMarkdown(md = '') {
+  if (md == null) md = '';
   return md
     .replace(/^### (.*$)/gim, '<h3>$1</h3>')
     .replace(/^## (.*$)/gim, '<h2>$1</h2>')
