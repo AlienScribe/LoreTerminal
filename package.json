@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "Retro-styled lore terminal web app",
   "scripts": {
-    "start": "live-server --port=8080 --no-browser .",
-    "test": "echo \"No tests specified\""
+    "start": "http-server -p 8080",
+    "test": "echo \"No tests specified\"",
+    "dev": "npm start"
   },
   "devDependencies": {
-    "live-server": "^1.2.0"
+    "http-server": "^14.1.1"
   }
 }
