@@ -1,13 +1,52 @@
 {
-  "name": "lore-terminal",
-  "version": "1.0.0",
-  "description": "Retro-styled lore terminal web app",
-  "scripts": {
-    "start": "http-server -p 8080 --cors",
-    "test": "echo \"No tests specified\"",
-    "dev": "npm start"
-  },
-  "devDependencies": {
-    "http-server": "^14.1.1"
-  }
+    "name": "a-01-canon-terminal",
+    "version": "2.0.0",
+    "private": true,
+    "description": "A-01 Canon Terminal for Alien Worlds lore exploration and DAO integration",
+    "main": "server.js",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "start": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "server": "nodemon server.js"
+    },
+    "keywords": [
+        "alien-worlds",
+        "lore",
+        "graphql",
+        "dao",
+        "terminal",
+        "express",
+        "vite",
+        "wax",
+        "wharfkit"
+    ],
+    "author": "Red Relic Studio",
+    "license": "MIT",
+    "dependencies": {
+        "@reduxjs/toolkit": "^1.9.5",
+        "@wharfkit/account": "^1.0.2",
+        "@wharfkit/antelope": "^1.0.4",
+        "@wharfkit/contract": "^1.1.2",
+        "@wharfkit/session": "^1.2.10",
+        "@wharfkit/wallet-plugin-cloudwallet": "^1.0.3",
+        "compression": "^1.7.4",
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.5",
+        "express": "^4.19.2",
+        "graphql-request": "^6.1.0",
+        "graphql-ws": "^5.16.0",
+        "node-fetch": "^3.3.2",
+        "ws": "^8.16.0"
+    },
+    "devDependencies": {
+        "@vitejs/plugin-react": "^4.0.4",
+        "buffer": "^6.0.3",
+        "nodemon": "^3.1.4",
+        "process": "^0.11.10",
+        "vite": "^6.3.5",
+        "vite-plugin-node-polyfills": "^0.23.0"
+    }
 }
