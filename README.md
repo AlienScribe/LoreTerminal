@@ -10,7 +10,7 @@ This is a retro-styled terminal interface for browsing Alien Worlds lore.
    ```
 2. Start a local dev server:
    ```bash
-   npm start
+   npm run dev
    ```
 
 The app will be served at [http://localhost:8080](http://localhost:8080).
