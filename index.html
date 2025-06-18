@@ -1,70 +1,84 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A-01 Canon Terminal for Alien Worlds lore exploration">
-    <title>A-01 Canon Terminal</title>
-    <link rel="stylesheet" href="/styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A-01 Canon Terminal - Explore the Alien Worlds universe">
+  <meta name="theme-color" content="#100F10">
+  <title>A-01 Canon Terminal</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
 </head>
 <body>
-    <div class="crt" role="presentation">
-        <div class="starfield" id="starfield" aria-hidden="true"></div>
-        <div class="boot-sequence" id="bootSequence" aria-live="polite">
-            <div class="boot-text">INITIALIZING A-01 CANON TERMINAL...</div>
-        </div>
-        <div class="terminal" id="terminal" role="main">
-            <header class="logo-container">
-                <div class="logo" aria-hidden="true"></div>
-            </header>
-            <header class="header">
-                <h1 class="title">A-01 Canon Terminal</h1>
-            </header>
-            <div class="main">
-                <aside class="sidebar" role="navigation">
-                    <button class="sidebar-btn active" aria-label="Library Section" type="button">Library</button>
-                </aside>
-                <section class="content" role="region" aria-label="Lore Content">
-                    <div class="controls">
-                        <label for="searchInput" class="sr-only">Search Lore</label>
-                        <input type="text" id="searchInput" placeholder="Search" aria-label="Search Lore">
-                        <button class="toggle-btn" data-mode="canon" aria-label="Toggle between Canon and Proposed Mode" type="button">Proposed</button>
-                        <button class="back-to-top" aria-label="Back to Top" type="button">↑</button>
-                    </div>
-                    <div class="filter-panel" id="filterPanel" role="complementary">
-                        <div class="tag-filter">
-                            <span>Filter by Tags:</span>
-                            <div class="tag-list" id="tagList" role="listbox"></div>
-                        </div>
-                        <div class="metadata-filter">
-                            <label for="authorFilter">Author:</label>
-                            <select id="authorFilter" aria-label="Filter by Author">
-                                <option value="">All Authors</option>
-                            </select>
-                            <label for="dateFilter">Date Range:</label>
-                            <select id="dateFilter" aria-label="Filter by Date Range">
-                                <option value="">All Dates</option>
-                                <option value="lastMonth">Last Month</option>
-                                <option value="lastYear">Last Year</option>
-                                <option value="older">Older</option>
-                            </select>
-                        </div>
-                    </div>
-                    <nav class="breadcrumbs" id="breadcrumbs" role="navigation" aria-label="Breadcrumbs"></nav>
-                    <div class="lore-content" role="article">
-                        <div class="loading" id="loading" aria-busy="true">LOADING...</div>
-                    </div>
-                </section>
-            </div>
-        </div>
+  <div class="crt" role="presentation">
+    <div class="starfield" id="starfield" aria-hidden="true"></div>
+    <div class="boot-sequence" id="bootSequence" aria-live="polite">
+      <div class="boot-log-frame">
+        <pre id="bootLog" class="boot-text">INITIALIZING A-01 CANON TERMINAL...</pre>
+        <button id="walletLoginBtn" class="wallet-button" aria-label="Connect WAX Wallet">🔐 Connect WAX Wallet</button>
+      </div>
     </div>
-    <script type="module" src="/api.js"></script>
-    <script type="module" src="/loreIndex.js"></script>
-    <script type="module" src="/library.js"></script>
-    <script type="module" src="/main.js"></script>
+    <div class="terminal" id="terminal" role="main">
+      <header class="header">
+        <div class="logo-container">
+          <span class="logo"><img src="/assets/alien-worlds-logo.png" alt="Alien Worlds Community Logo" width="200" height="50"></span>
+        </div>
+        <h1 class="title" id="sectionTitle">A-01 Canon Terminal</h1>
+      </header>
+      <div class="main">
+        <button id="sidebarTab" class="sidebar-tab-btn" aria-label="Toggle navigation menu" aria-expanded="false">☰</button>
+        <aside class="sidebar" id="sidebar" role="navigation">
+          <div class="sidebar-tray" id="sidebarTray">
+            <button class="sidebar-btn active" data-section="canon" id="btn-canon" aria-current="page">CANON</button>
+            <button class="sidebar-btn" data-section="learn" id="btn-learn">LEARN</button>
+            <button class="sidebar-btn" data-section="vote" id="btn-vote">VOTE</button>
+            <button class="sidebar-btn" data-section="tools" id="btn-tools">TOOLS</button>
+            <button class="sidebar-btn" data-section="profile" id="btn-profile">PROFILE</button>
+            <button class="sidebar-btn" data-section="planets" id="btn-planets">PLANETS</button>
+            <button class="sidebar-btn" data-section="races" id="btn-races">RACES</button>
+            <button class="sidebar-btn" data-section="technology" id="btn-technology">TECHNOLOGY</button>
+          </div>
+        </aside>
+        <section class="content" role="region" aria-label="Lore Content">
+          <div class="controls">
+            <label for="searchInput" class="sr-only">Search Lore</label>
+            <input type="text" id="searchInput" placeholder="Search" aria-label="Search Lore">
+            <button class="toggle-btn" data-mode="canon" aria-label="Toggle between Canon and Proposed Mode" type="button">Proposed</button>
+            <button class="back-to-top" aria-label="Back to Top" type="button">↑</button>
+          </div>
+          <div class="filter-panel" id="filterPanel" role="complementary">
+            <div class="tag-filter">
+              <span>Filter by Tags:</span>
+              <div class="tag-list" id="tagList" role="listbox"></div>
+            </div>
+            <div class="metadata-filter">
+              <label for="authorFilter">Author:</label>
+              <select id="authorFilter" aria-label="Filter by Author">
+                <option value="">All Authors</option>
+              </select>
+              <label for="dateFilter">Date Range:</label>
+              <select id="dateFilter" aria-label="Filter by Date Range">
+                <option value="">All Dates</option>
+                <option value="lastMonth">Last Month</option>
+                <option value="lastYear">Last Year</option>
+                <option value="older">Older</option>
+              </select>
+            </div>
+          </div>
+          <nav class="breadcrumbs" id="breadcrumbs" role="navigation" aria-label="Breadcrumbs"></nav>
+          <div class="lore-content" role="article">
+            <div class="loading" id="loading" aria-busy="true">LOADING...</div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="/api.js"></script>
+  <script type="module" src="/loreIndex.js"></script>
+  <script type="module" src="/library.js"></script>
+  <script type="module" src="/main.js"></script>
 </body>
 </html>
