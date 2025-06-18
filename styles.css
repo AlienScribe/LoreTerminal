@@ -1,12 +1,14 @@
 body {
   background: black;
-  color: white;
+  color: #0f0;
   font-family: monospace;
   margin: 0;
-  padding: 0;
 }
 
 #terminal {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 1rem;
   padding: 1rem;
   position: relative;
   min-height: 100vh;
@@ -16,7 +18,7 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(transparent 1px, rgba(255,255,255,0.03) 2px);
+  background: repeating-linear-gradient(transparent 1px, rgba(255,255,255,0.05) 2px);
   pointer-events: none;
 }
 
@@ -24,16 +26,49 @@ header, footer {
   text-align: center;
 }
 
-nav {
-  margin-bottom: 1rem;
+nav a {
+  margin-right: 1rem;
+  color: #0f0;
+  text-decoration: none;
 }
 
-#loreDisplay {
-  white-space: pre-wrap;
+#loreDisplay article {
+  border-bottom: 1px dashed #0f0;
+  padding: .5rem 0;
 }
 
-pre {
+.vote.active {
+  color: yellow;
+}
+
+.bookmark.bookmarked {
+  color: orange;
+}
+
+#mdAssistant {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  width: 300px;
   background: #111;
   padding: 1rem;
-  overflow-x: auto;
+  border: 1px solid #0f0;
+}
+
+#mdAssistant textarea {
+  width: 100%;
+  height: 80px;
+}
+
+.profile {
+  background: #111;
+  padding: 1rem;
+  border: 1px solid #0f0;
+  max-width: 300px;
+  margin-top: 1rem;
+}
+#overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
 }

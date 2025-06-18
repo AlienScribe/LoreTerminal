@@ -1,17 +1,28 @@
+// Markdown formatting assistant
 function convertToMarkdown(raw) {
   return raw
     .replace(/\n{2,}/g, '\n\n')
     .replace(/\t/g, '    ');
 }
 
-document.body.insertAdjacentHTML('beforeend', `
-  <textarea id="inputText" placeholder="Paste text here..."></textarea>
-  <button id="convertBtn">Convert to Markdown</button>
-  <pre id="mdOutput"></pre>
-`);
+const assistant = document.createElement('div');
+assistant.id = 'mdAssistant';
+assistant.innerHTML = `
+  <textarea id="mdInput" placeholder="Paste text here..."></textarea>
+  <div class="controls">
+    <button id="copyMd">Copy</button>
+  </div>
+  <pre id="mdPreview"></pre>
+`;
 
-document.getElementById('convertBtn').onclick = () => {
-  const raw = document.getElementById('inputText').value;
-  const md = convertToMarkdown(raw);
-  document.getElementById('mdOutput').textContent = md;
-};
+document.body.appendChild(assistant);
+
+document.getElementById('mdInput').addEventListener('input', e => {
+  const md = convertToMarkdown(e.target.value);
+  document.getElementById('mdPreview').textContent = md;
+});
+
+document.getElementById('copyMd').addEventListener('click', () => {
+  const text = document.getElementById('mdPreview').textContent;
+  navigator.clipboard.writeText(text);
+});
