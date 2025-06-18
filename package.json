@@ -1,0 +1,12 @@
+{
+  "name": "lore-terminal",
+  "version": "1.0.0",
+  "description": "Retro-styled lore terminal web app",
+  "scripts": {
+    "start": "live-server --port=8080 --no-browser .",
+    "test": "echo \"No tests specified\""
+  },
+  "devDependencies": {
+    "live-server": "^1.2.0"
+  }
+}
