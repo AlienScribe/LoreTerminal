@@ -11,15 +11,7 @@ import { showProfile } from './components/userProfiles.js';
 let tags;
 
 async function load() {
-  document.body.innerHTML = `
-    <div id="terminal" class="scanline">
-      <header><h1>ALIEN WORLDS: LORE TERMINAL</h1></header>
-      <nav id="menu"></nav>
-      <div id="filters"></div>
-      <section id="loreDisplay"></section>
-      <footer>v1.0 - loreworks.co.za</footer>
-    </div>`;
-
+  // fetch tagging data used for categorizing lore entries
   tags = await fetch('./data/indexingTags.json').then(r => r.json());
 
   const canon = await fetchCanonLore();
@@ -62,4 +54,5 @@ function displayLore(items) {
   });
 }
 
-load();
+// Start the application once the DOM is ready
+document.addEventListener('DOMContentLoaded', load);
