@@ -88,7 +88,11 @@ export async function fetchMegaProfile(wallet, dacId, planetId) {
       body: JSON.stringify({ query, variables })
     });
 
-    // Attempt to parse JSON response directly
+    if (!response.ok) {
+      const text = await response.text().catch(() => '');
+      throw new Error(`Server responded ${response.status} ${response.statusText}: ${text}`);
+    }
+
     const json = await response.json();
 
     // Safely extract nested response data

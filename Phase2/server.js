@@ -69,32 +69,18 @@ app.post('/api/aw-query', async (req, res) => {
 // 2. Canon lore via your own GraphQL schema
 app.get('/api/canon', async (req, res) => {
   try {
-    const result = await graphqlServer.executeOperation({
-      query: `
-        query {
-          lore {
-            id
-            title
-            content
-            author
-            date
-            category
-          }
-        }
-      `
-    })
-
-    if (result.errors) {
-      console.error('GraphQL errors in /api/canon:', result.errors)
-      return res.status(500).json({ error: 'GraphQL returned errors' })
+    const response = await fetch(
+      'https://api.github.com/repos/Alien-Worlds/the-lore/contents/README.md?ref=main',
+      { headers: githubHeaders('application/vnd.github.raw+json') }
+    )
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`)
     }
-
-    // Extract data.lore
-    const lore = result.data?.lore || []
-    res.json(lore)
+    const text = await response.text()
+    res.send(text)
   } catch (error) {
     console.error('Error fetching canon lore:', error)
-    res.status(500).json({ error: 'Failed to fetch canon lore' })
+    res.status(500).send('Error fetching Canon lore')
   }
 })
 
